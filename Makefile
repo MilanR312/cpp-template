@@ -7,5 +7,5 @@ debug: $(Exec)
 	del $^
 
 $(Exec): $(Filename)
-	g++ -o $@ -D DEBUG $^
+	g++ -o $@ -D DEBUG $^ -std=c++20
 
