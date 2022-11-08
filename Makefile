@@ -1,11 +1,26 @@
-default: debug
 
-Filename := main.cpp
-Exec := $(basename $(Filename)).exe
-debug: $(Exec)
-	$^
-	del $^
 
-$(Exec): $(Filename)
-	g++ -o $@ -D DEBUG $^ -std=c++20
+FLAGS := -fmodules-ts -std=c++20
+
+.PHONY: all clean
+
+DIR := modules
+FILES := $(wildcard $(DIR)/*.cpp)
+
+all: $(DIR)/*.gcm main.exe
+	rm *.o
+	echo "finished"
+
+clean:
+	rm *.exe
+	rm gcm.cache/*.gcm
+
+
+#	g++ $(FLAGS) -x c++-system-header @<
+
+%.exe: %.cpp
+	g++ $(FLAGS) $(FILES) $< -o $@
+
+%.gcm: %.cpp
+	g++ $(FLAGS) -c $<
 
